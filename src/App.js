@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useRef } from 'react';
 import './App.css';
 
 import React from 'react';
 
 function App() {
-  const [calc, setCalc]= useState("");
+  const initialState = JSON.parse(sessionStorage.getItem("calc"))|| []
+  const [calc, setCalc]= useState(initialState);
   const [results, setResults] =useState("");
   const ops =['/','*','-','+','.'];
+  useEffect(()=>{
+    sessionStorage.setItem("calc",JSON.stringify(calc)); 
+ },[calc]);
+
+
   const updateCalc = value=>{
+    
     if(
       ops.includes(value) && calc=== '' ||
       ops.includes(value) && ops.includes(calc.slice(-1))
